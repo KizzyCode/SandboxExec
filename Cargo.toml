@@ -1,0 +1,12 @@
+[package]
+name = "sandbox_exec"
+version = "0.1.0"
+authors = ["KizzyCode <development@kizzycode.de>"]
+
+[features]
+default = ["opportunistic"]
+opportunistic = []
+
+[dependencies]
+etrace = "0.2.8"
+tiny_future = "0.3.0"
