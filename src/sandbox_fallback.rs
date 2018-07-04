@@ -1,4 +1,4 @@
-use super::{ Result, SandboxExecError, SandboxProfile, SANDBOX_EXEC_BINARY, SANDBOX_EXEC_PROFILE };
+use super::{ Result, SandboxExecError, SandboxProfile, SANDBOX_EXEC_BINARY, SANDBOX_EXEC_PROFILE, SANDBOX_EXEC_DEBUG };
 use std::{ ffi::OsString, process::{ Command, Child, ExitStatus } };
 
 
@@ -9,6 +9,7 @@ pub fn exec(binary: OsString, args: impl Iterator<Item = OsString>, profile: u8)
 		command.args(args);
 		command.env_remove(SANDBOX_EXEC_BINARY);
 		command.env_remove(SANDBOX_EXEC_PROFILE);
+		command.env_remove(SANDBOX_EXEC_DEBUG);
 		ok_or!(command.status(), throw_err!(SandboxExecError::ExecError, "Failed to execute child"))
 	};
 	if !exit_status.success() {
