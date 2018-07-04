@@ -54,18 +54,10 @@ pub fn build_profile(binary: &OsStr, profile: u8) -> String {
 
 
 pub fn exec(binary: OsString, args: impl Iterator<Item = OsString>, profile: u8) -> Result<()> {
-	let args = {
-		let mut combined_args: Vec<OsString> = vec!["-p".into(), build_profile(&binary, profile).into(), binary];
-		combined_args.extend(args);
-		combined_args
-	};
-	
 	let exit_status: ExitStatus = {
 		let mut command = Command::new("/usr/bin/sandbox-exec");
-		command.args(args);
-		command.env_remove(SANDBOX_EXEC_BINARY);
-		command.env_remove(SANDBOX_EXEC_PROFILE);
-		command.env_remove(SANDBOX_EXEC_DEBUG);
+		command.arg("-p").arg(build_profile(&binary, profile)).arg(binary).args(args);
+		command.env_remove(SANDBOX_EXEC_BINARY).env_remove(SANDBOX_EXEC_PROFILE).env_remove(SANDBOX_EXEC_DEBUG);
 		ok_or!(command.status(), throw_err!(SandboxExecError::ExecError, "Failed to execute child"))
 	};
 	if !exit_status.success() {
