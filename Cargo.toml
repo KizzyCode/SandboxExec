@@ -2,9 +2,13 @@
 name = "sandbox_exec"
 version = "0.1.0"
 authors = ["KizzyCode <development@kizzycode.de>"]
+description = "This program allows you to execute a binary in a sandbox"
+license = "BSD-2-Clause OR MIT"
+repository = "https://github.com/KizzyCode/SandboxExec"
+readme = "README.md"
 
 [features]
-default = ["opportunistic"]
+default = []
 opportunistic = []
 
 [dependencies]

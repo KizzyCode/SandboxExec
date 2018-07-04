@@ -60,7 +60,7 @@ fn main() {
 			let mut profile = SandboxProfile::DenyDefault as u8;
 			
 			let profile_string: String = ok_or!(env::var(SANDBOX_EXEC_PROFILE), throw_err!(SandboxExecError::ApiError, "No valid profile specified"));
-			for profile_string in profile_string.split(',') {
+			for profile_string in profile_string.split(',').filter(|s| !s.is_empty()) {
 				profile = profile_add!(profile, match profile_string {
 					"DenyDefault" => SandboxProfile::DenyDefault,
 					"AllowReadWorkingDir" => SandboxProfile::AllowReadWorkingDir,
